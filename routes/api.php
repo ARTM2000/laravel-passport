@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::post('register', 'API\AuthController@register');
-Route::post('login', ['as' => 'login', 'uses' => 'API\AuthController@login']);
+Route::post('login', 'API\AuthController@login');
+Route::post('reset-password', 'API\AuthController@resetPassword');
 
 Route::apiResource('ceo', 'API\CEOController')->middleware('auth:api');

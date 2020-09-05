@@ -56,4 +56,23 @@ class AuthController extends Controller
         ]);
 
     }
+
+    public function resetPassword(Request $request)
+    {
+        $loginDate = $request->validate([
+            'email' => 'email|required',
+            'password' => 'required',
+            'new_password' => 'required'
+        ]);
+
+        if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return response()->json(['message' => 'invalid credentials'],403);
+        }
+
+        $user = auth()->user();
+        $user->password = bcrypt($loginDate['new_password']);
+        $user->update();
+
+        return response()->json(['message' => 'user password changed', 'user' => $user]);
+    }
 }
